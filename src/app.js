@@ -32,6 +32,9 @@ export default class App extends React.Component<Props, State> {
 
   takePic = () => {
     console.log("take picture here and upload it");
+    ImagePicker.showImagePicker({}, response => {
+      console.log(response);
+    });
   };
 
   processPic() {
