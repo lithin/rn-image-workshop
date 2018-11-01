@@ -35,3 +35,8 @@ Make sure you're using correct XCode version:
 For android, you'll need to update the path to Android SDK in `android/local.properties`.
 
 In order to make taking photos work, you'll need to run this app on your actual device. That's easy enough on Android but there is a bit more set up on iOS. Find out how to do this in [RN tutorial](https://facebook.github.io/react-native/docs/running-on-device).
+
+# My comments
+
+https://github.com/react-community/react-native-image-picker/blob/master/docs/Install.md
+https://github.com/react-community/react-native-image-picker
