@@ -32,4 +32,6 @@ Make sure you're using correct XCode version:
 - `yarn start`
 - `yarn ios` or `yarn android`
 
+For android, you'll need to update the path to Android SDK in `android/local.properties`.
+
 In order to make taking photos work, you'll need to run this app on your actual device. That's easy enough on Android but there is a bit more set up on iOS. Find out how to do this in [RN tutorial](https://facebook.github.io/react-native/docs/running-on-device).
