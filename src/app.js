@@ -9,6 +9,7 @@
 import React from "react";
 import ImagePicker from "react-native-image-picker";
 
+import { getAWSAccessTokens, convertBase64ToByteArray } from "./utils";
 import {
   Container,
   Title,
@@ -24,7 +25,7 @@ import placeholderImage from "./home.png";
 type Props = {};
 type State = {
   pictureData: ?string,
-  processedData: Array<string>
+  processedData: Array<{ name: string, confidence: number }>
 };
 export default class App extends React.Component<Props, State> {
   state = { pictureData: null, processedData: [] };
@@ -60,7 +61,11 @@ export default class App extends React.Component<Props, State> {
         </Button>
         <RecognisedContent>
           {processedData.length ? (
-            processedData.map(info => <Info key={info}>{info}</Info>)
+            processedData.map(label => (
+              <Info key={label.name}>
+                - There's {label.name}, with {label.confidence}% confidence
+              </Info>
+            ))
           ) : (
             <Info>Not sure yet!</Info>
           )}
