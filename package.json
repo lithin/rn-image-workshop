@@ -8,6 +8,8 @@
     "test": "jest"
   },
   "dependencies": {
+    "Base64": "^1.0.1",
+    "aws-sdk": "^2.348.0",
     "react": "16.6.0-alpha.8af6728",
     "react-native": "0.57.3",
     "styled-components": "^4.0.2"

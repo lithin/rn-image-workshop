@@ -48,5 +48,6 @@ export const Photo = styled.Image`
   margin-top: 40;
 `;
 export const RecognisedContent = styled.View`
-  margin-top: 30;
+  margin-top: 40;
+  margin-bottom: 100;
 `;
