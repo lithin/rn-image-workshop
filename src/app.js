@@ -8,6 +8,7 @@
 
 import React from "react";
 import ImagePicker from "react-native-image-picker";
+import AWS from "aws-sdk";
 
 import { getAWSAccessTokens, convertBase64ToByteArray } from "./utils";
 import {
@@ -22,6 +23,12 @@ import {
 } from "./styles.js";
 import placeholderImage from "./home.png";
 
+const rekognition = new AWS.Rekognition({
+  region: "eu-west-1",
+  apiVersion: "2016-06-27",
+  ...getAWSAccessTokens()
+});
+
 type Props = {};
 type State = {
   pictureData: ?string,
@@ -32,15 +39,37 @@ export default class App extends React.Component<Props, State> {
 
   takePic = () => {
     console.log("take picture here and upload it");
-    ImagePicker.showImagePicker({}, response => {
+    ImagePicker.showImagePicker({ quality: 0.3 }, response =>
       this.setState({
         pictureData: response.data
-      });
-    });
+      })
+    );
   };
 
-  processPic() {
+  processPic(body) {
     console.log("get information about what is in the picture");
+
+    rekognition.detectLabels(
+      {
+        Image: {
+          Bytes: convertBase64ToByteArray(body)
+        },
+        MaxLabels: 6,
+        MinConfidence: 90
+      },
+      (err, data) => {
+        if (err) {
+          console.log(err, err.stack);
+        } else {
+          this.setState({
+            processedData: data.Labels.map(label => ({
+              name: label.Name,
+              confidence: parseInt(label.Confidence, 10)
+            }))
+          });
+        }
+      }
+    );
   }
 
   render() {
@@ -61,7 +90,10 @@ export default class App extends React.Component<Props, State> {
           }
         />
         <SubTitle>What's in the photo?</SubTitle>
-        <Button onPress={this.processPic} disabled={isProcessingDisabled}>
+        <Button
+          onPress={() => this.processPic(pictureData)}
+          disabled={isProcessingDisabled}
+        >
           <ButtonText inactive={isProcessingDisabled}>Check</ButtonText>
         </Button>
         <RecognisedContent>
